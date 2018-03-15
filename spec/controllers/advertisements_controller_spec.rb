@@ -44,24 +44,24 @@ RSpec.describe AdvertisementsController, type: :controller do
       expect(response).to render_template :new
     end
 
-    it "instantiates @post" do
+    it "instantiates @advertisement" do
       get :new
-      expect(assigns(:post)).not_to be_nil
+      expect(assigns(:advertisement)).not_to be_nil
     end
   end
 
   describe "ADVERTISEMENT create" do
     it "increases the number of Advertisement by 1" do
-      expect{ advertisement :create, params: { advertisement: { title: RandomData.random_sentence, copy: RandomData.random_paragraph, price: rand(50..200) } } }.to change(Advertisement,:count).by(1)
+      expect{ post :create, params: { advertisement: { title: RandomData.random_sentence, copy: RandomData.random_paragraph, price: rand(50..200) } } }.to change(Advertisement,:count).by(1)
     end
 
     it "assigns the new advertisement to @advertisement" do
-      advertisement :create, params: { advertisement: { title: RandomData.random_sentence, copy: RandomData.random_paragraph, price: rand(50..200) } }
+      post :create, params: { advertisement: { title: RandomData.random_sentence, copy: RandomData.random_paragraph, price: rand(50..200) } }
       expect(assigns(:advertisement)).to eq Advertisement.last
     end
 
     it "redirects to the new advertisement" do
-      advertisement :create, params: { advertisement: { title: RandomData.random_sentence, copy: RandomData.random_paragraph, price: rand(50..200) } }
+      post :create, params: { advertisement: { title: RandomData.random_sentence, copy: RandomData.random_paragraph, price: rand(50..200) } }
       expect(response).to redirect_to Advertisement.last
     end
   end
