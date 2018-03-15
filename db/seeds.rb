@@ -19,6 +19,16 @@ posts = Post.all
 end
 Comment.find_or_create_by!(post: posts.sample, body: "Sample Comment")
 
+#Create Advertisements
+20.times do
+  Advertisement.create!(
+    title: RandomData.random_sentence,
+    copy: RandomData.random_paragraph,
+    price: rand(50..200)
+  )
+end
+
 puts "Seed finished"
 puts "#{Post.count} posts created"
 puts "#{Comment.count} comments created"
+puts "#{Advertisement.count} ads created"
