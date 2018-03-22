@@ -11,10 +11,20 @@ class TopicsController < ApplicationController
   end
 
   def new
+    if current_user.moderator?
+      flash[:alert] = "You must be an admin to do that."
+      redirect_to topics_path
+    end
+
     @topic = Topic.new
   end
 
   def create
+    if current_user.moderator?
+      flash[:alert] = "You must be an admin to do that."
+      redirect_to topics_path
+    end
+
     @topic = Topic.new(topic_params)
 
     if @topic.save
@@ -43,6 +53,12 @@ class TopicsController < ApplicationController
   end
 
   def destroy
+
+    if current_user.moderator?
+      flash[:alert] = "You must be an admin to do that."
+      redirect_to topics_path
+    end
+
     @topic = Topic.find(params[:id])
 
     if @topic.destroy
@@ -61,7 +77,7 @@ class TopicsController < ApplicationController
   end
 
   def authorize_user
-    unless current_user.admin?
+    unless current_user.admin? || current_user.moderator?
       flash[:alert] = "You must be an admin to do that."
       redirect_to topics_path
     end
