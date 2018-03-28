@@ -74,5 +74,27 @@ RSpec.describe Post, type: :model do
         expect(post.rank).to eq (old_rank - 1)
       end
     end
+
+    describe "new post is automatically voted up" do
+      it "adds 1 vote to a post when created" do
+        my_post = topic.posts.create!(title: title, body: body, user: user)
+        expect(my_post.votes.count).to eq (1)
+      end
+
+      it "has a value of 1" do
+        my_post = topic.posts.create!(title: title, body: body, user: user)
+        expect(my_post.votes[0].value).to eq (1)
+      end
+
+      it "has a #points value of 1" do
+        my_post = topic.posts.create!(title: title, body: body, user: user)
+        expect(my_post.points).to eq (1)
+      end
+
+      it "has the same user as the post" do
+        my_post = topic.posts.create!(title: title, body: body, user: user)
+        expect(my_post.votes[0].user).to eq (my_post.user)
+      end
+    end
   end
 end
